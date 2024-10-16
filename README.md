@@ -1,6 +1,6 @@
 # My Assessement Repository
 
-**by Gabriela Domiciano (gabreila.d@hotmail.com)**
+**by Gabriela Domiciano (gabriela.d@hotmail.com)**
 
 This repository contains  my assessemnt fro the module..
 
