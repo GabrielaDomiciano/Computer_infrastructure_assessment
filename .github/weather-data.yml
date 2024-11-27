@@ -1,0 +1,41 @@
+name: Daily Weather Update
+
+on:
+  schedule:
+    # Agenda para rodar todos os dias às 10h da manhã (UTC)
+    - cron: '0 10 * * *'
+  workflow_dispatch: # Permite rodar manualmente para teste
+    inputs:
+      reason:
+        description: 'Reason for running manually'
+        required: false
+
+jobs:
+  update-weather-data:
+    runs-on: ubuntu-latest # Usar uma máquina virtual com Ubuntu
+
+    steps:
+    # 1. Fazer checkout do repositório
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Configurar permissões de Git e usuário
+    - name: Set up Git
+      run: |
+        git config --global user.name "your-username"
+        git config --global user.email "your-email@example.com"
+
+    # 3. Executar o script weather.sh
+    - name: Run weather.sh script
+      run: |
+        chmod +x ./weather.sh # Garantir que o script seja executável
+        ./weather.sh         # Executar o script
+
+    # 4. Adicionar alterações ao Git
+    - name: Commit and push changes
+      run: |
+        git add .
+        git commit -m "Automated weather data update: $(date)"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
