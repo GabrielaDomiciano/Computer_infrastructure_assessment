@@ -1,82 +1,51 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-name: Daily Weather Update
+name: Run Weather Script and Push Changes
 
 on:
   schedule:
-    # Agenda para rodar todos os dias às 10h da manhã (UTC)
-    - cron: '0 10 * * *'
-  workflow_dispatch: # Permite rodar manualmente para teste
-    inputs:
-      reason:
-        description: 'Reason for running manually'
-        required: false
+    # Executa diariamente às 10:00 AM UTC
+    - cron: '0 10 * * *' # min hour day month year
+  workflow_dispatch:  # Permite execução manual
+
+permissions:
+  contents: write  # Permite fazer push de mudanças no repositório
 
 jobs:
-  update-weather-data:
-    runs-on: ubuntu-latest # Usar uma máquina virtual com Ubuntu
+  run-weather:
+    runs-on: ubuntu-latest
 
     steps:
-    # 1. Fazer checkout do repositório
+    # Etapa 1: Fazer checkout do repositório
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        persist-credentials: true  # Mantém as credenciais para permitir o push de alterações
 
-    # 2. Configurar permissões de Git e usuário
-    - name: Set up Git
-      run: |
-        git config --global user.name "your-username"
-        git config --global user.email "your-email@example.com"
+    # Etapa 2: Configurar o ambiente Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'  # Defina a versão do Python necessária
 
-    # 3. Executar o script weather.sh
-    - name: Run weather.sh script
-      run: |
-        chmod +x ./weather.sh # Garantir que o script seja executável
-        ./weather.sh         # Executar o script
+    # Etapa 3: Instalar dependências
+    - name: Install dependencies
+      run: pip install -r requirements.txt
 
-    # 4. Adicionar alterações ao Git
+    # Etapa 4: Executar o script `weather.py`
+    - name: Run weather.py script
+      run: python weather.py  # Aqui você executa o `weather.py` ao invés de `stocks.py`
+
+    # Etapa 5: Commit e push das mudanças de volta ao repositório
     - name: Commit and push changes
-      run: |
-        git add .
-        git commit -m "Automated weather data update: $(date)"
-        git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Token do GitHub para autenticação
+      run: |
+        # Configura o nome de usuário e e-mail do commit
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Adiciona e comita as mudanças
+        git add .
+        git commit -m "Automated changes by weather.py script" || echo "No changes to commit"
+        
+        # Push das mudanças para o repositório
+        git push origin main
