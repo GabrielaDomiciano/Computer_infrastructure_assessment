@@ -14,27 +14,25 @@ jobs:
     runs-on: ubuntu-latest  # Use Ubuntu VM
 
     steps:
-    # Step 1: Check out the repository
+    # Check out the repository
     - name: Checkout repository
       uses: actions/checkout@v3
-      with:
-        persist-credentials: true # Ensures credentials are available for pushing changes
 
-    # Step 2: Set up Python (optional, if needed for other tasks in the future)
+    # Set up Python (optional, but you might need this for other tasks in the future)
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
-    # Step 3: Set up bash and wget
+    # Set up bash and wget
     - name: Set up bash and wget
       run: sudo apt-get update && sudo apt-get install -y wget
 
-    # Step 4: Run the weather.sh script
-    - name: Run weather.sh script
-      run: bash weather.sh  # Running the weather script
+    # Run the weather script
+    - name: Run weather script
+      run: bash weather.sh  # Corrected to run the script with bash
 
-    # Step 5: Commit and push the new weather data
+    # Commit and push the new weather data
     - name: Commit and push changes
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
