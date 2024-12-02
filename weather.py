@@ -21,20 +21,20 @@ import requests
 
 
 # Define the URL for the weather data
-url = "https://prodapi.metweb.ie/observations/athenry/today"
+#url = "https://prodapi.metweb.ie/observations/athenry/today"
 
 # Generate filenames based on the current timestamp
-timestamp = dt.datetime.now().strftime('%Y%m%d_%H%M%S')
-json_filename = f"data/weather/{timestamp}_athenry.json"
-csv_filename = f"data/{timestamp}.csv"
+#timestamp = dt.datetime.now().strftime('%Y%m%d_%H%M%S')
+#json_filename = f"data/weather/{timestamp}_athenry.json"
+#csv_filename = f"data/{timestamp}.csv"
 
 # Download the JSON data and save it to a file
-response = requests.get(url)
-with open(json_filename, "w") as file:
-    file.write(response.text)
+#response = requests.get(url)
+#with open(json_filename, "w") as file:
+ #   file.write(response.text)
 
 # Read the JSON file into a pandas DataFrame and save as CSV
-df = pd.read_json(json_filename)
-df.to_csv(csv_filename, index=False)
+#df = pd.read_json(json_filename)
+#df.to_csv(csv_filename, index=False)
 
-print(f"Weather data saved: JSON -> {json_filename}, CSV -> {csv_filename}")
+#print(f"Weather data saved: JSON -> {json_filename}, CSV -> {csv_filename}")
