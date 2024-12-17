@@ -48,7 +48,7 @@ The project is automated using GitHub Actions. Data is downloaded every day at 1
 
 - Classes we had over the semester [Professor Ian McLoughlin Git Hub](https://github.com/ianmcloughlin/2425_computer_infrastructure).
 
-- I used ChatGpt to help understand and write some codes, asking to explain in simple ways. Write the script in weather-data.yml.
+- I used AI to help understand and write some codes, asking to explain in simple ways. Write the script in weather-data.yml.
 
 - GitHub Codespaces overview [GitHub](https://docs.github.com/en/codespaces/overview).
 
